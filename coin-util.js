@@ -14,6 +14,7 @@ class CoinUtil {
     return uuidV1();
   }
 
+  //  object => string
   static hash(data){
     return SHA256(JSON.stringify(data)).toString();
   }

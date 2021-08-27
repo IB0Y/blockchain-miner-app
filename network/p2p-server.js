@@ -1,6 +1,6 @@
 const Websocket = require('ws');
 
-const P2P_PORT =  process.env.P2P_PORT || 6001;
+const P2P_PORT =  process.env.P2P_PORT || 9000;
 const peers = process.env.PEERS ? process.env.PEERS.split(',') : [];
 
 const MESSAGE_TYPES = {
@@ -14,21 +14,30 @@ class P2pServer {
     this.blockchain = blockchain;
     this.transactionPool = transactionPool;
     this.sockets = [];
+    this.socketsConnected = 0;
   }
 
 
   listen(){
-    const server = new Websocket.Server({ port : P2P_PORT });
-    server.on("connection", (socket) => {
-      this.connectSocket(socket);
-    });
-    this.connectToPeers()
-    console.log(`Listening for peer to peer connections on : ${P2P_PORT}`);
+    return new Promise((resolve, reject) => {
+      try{
+        const server = new Websocket.Server({ port : P2P_PORT });
+        server.on("connection", (socket) => {
+          this.connectSocket(socket);
+        });
+        this.connectToPeers()
+        console.log(`Listening for peer to peer connections on : ${P2P_PORT}`);
+        resolve()
+      }catch(error){
+        reject(error)
+      }
+    })
   }
 
   connectSocket(socket){
     this.sockets.push(socket);
-    console.log("Socket connected");
+    this.socketsConnected +=1;
+    console.log(`${this.socketsConnected} Sockets connected`);
 
     this.messageHandler(socket); //Add bargraph for progress |||||||||
     this.sendChain(socket);
@@ -97,6 +106,10 @@ class P2pServer {
         type: MESSAGE_TYPES.clear_transactions
       }));
     });
+  }
+
+  closeSocket(){
+    //
   }
 }
 

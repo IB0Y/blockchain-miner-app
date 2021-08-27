@@ -10,7 +10,6 @@ class Miner {
   }
 
   mine(){
-    while (true) {
       const validTransactions = this.transactionPool.validTransactions();
       // include miner's reward
       validTransactions.push(Transaction.rewardTransaction(this.wallet, Wallet.blockchainWallet()));
@@ -27,13 +26,7 @@ class Miner {
 
       return block;
     }
-  }
 
-  run(){
-    while (true) {
-      this.mine();
-    }
-  }
 }
 
 module.exports = Miner;

@@ -46,7 +46,7 @@ class Wallet {
     calculateBalance(blockchain){
       let balance = this.balance;
       let transactions = [];
-      // GEt all transactions from  the blockchain
+      // Get all transactions from  the blockchain
       blockchain.chain.forEach(block => block.data.forEach(transaction => {
         transactions.push(transaction);
       }));
