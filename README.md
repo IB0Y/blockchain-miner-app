@@ -2,7 +2,7 @@
 ## Developer
 ### Waluisachi
 
-##Installation and starting application
+## Installation and starting application
 ### Downloading
 ````
 git clone https://github.com/philipwaluisachi/blockchain-miner-app
